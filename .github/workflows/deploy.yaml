@@ -87,10 +87,10 @@ jobs:
                 docker build --no-cache -t docker-bench-security .
             - name: Run Base images
               run: |
-                docker run -d ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_LOWER }}:conor-ubi-9
+                docker run -d --name conor-ubi-9 ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_LOWER }}:conor-ubi-9
             - name: Run docker bench
               run: |
-                docker containers ps --filter name=${{ env.REGISTRY }}/${{ env.IMAGE_NAME_LOWER }}:conor-ubi-9
+                docker containers ps --filter name=conor-ubi-9
                 docker run --rm --net host --pid host --userns host --cap-add audit_control \
                   -e DOCKER_CONTENT_TRUST=$DOCKER_CONTENT_TRUST \
                   -v /etc:/etc:ro \
