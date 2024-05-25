@@ -20,7 +20,7 @@ jobs:
     Build-Image:
         runs-on: self-hosted
         container:
-          image: gcr.io/kaniko-project/executor:debug 
+          image: gcr.io/kaniko-project/executor:v1.20.0-debug
         env:
           IMAGE_NAME_LOWER: ""
         steps:
@@ -70,7 +70,7 @@ jobs:
     CIS-Bench:
         runs-on: self-hosted
         container:
-          image: gcr.io/kaniko-project/executor:debug 
+          image: gcr.io/kaniko-project/executor:v1.20.0-debug
         needs: Build-Image
         env:
           IMAGE_NAME_LOWER: ""
