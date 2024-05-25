@@ -98,4 +98,10 @@ jobs:
                   -v /var/run/docker.sock:/var/run/docker.sock:ro \
                   --label docker_bench_security \
                   docker-bench-security -i ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_LOWER }}:conor-ubi-9 -c container_images
+            - name: Snyk scan
+              uses: snyk/actions/docker@master
+              env:
+                SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+              with:
+                image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_LOWER }}
         
