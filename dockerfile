@@ -3,4 +3,4 @@ RUN dnf install -y python3.12 python3.12-pip && dnf clean all
 RUN adduser pythonuser
 USER pythonuser
 WORKDIR /home/pythonuser
-CMD ["/bin/bash"]
+CMD ["sleep", "infinity"]
