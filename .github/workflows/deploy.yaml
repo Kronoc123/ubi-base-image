@@ -16,10 +16,10 @@ jobs:
             - name: Clone Repo
               uses: actions/checkout@v3
             - name: Pull UBI 9 Image
-              run: docker pull ubi9/ubi:9.0.0
+              run: registry.access.redhat.com/ubi9/ubi@sha256:ed84f34cd929ea6b0c247b6daef54dd79602804a32480a052951021caf429494
             - name: Build UBI 9 Image
               run: docker build -t ubi9/conor-ubi:9.0.0 .
-            - name: Push UBI 9 Image
+            - name: Tag custom UBI 9 Image
               run: docker tag ubi9/conor-ubi:9.0.0 ghcr.io/ubi/conor-ubi:9.0.0
             - name: Push UBI 9 Image
               if: github.actor == 'conor-ubi[bot]'
