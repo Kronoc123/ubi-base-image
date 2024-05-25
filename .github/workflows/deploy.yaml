@@ -111,7 +111,7 @@ jobs:
                 SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
               with:
                 image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_LOWER }}
-                args: --file=Dockerfile --sarif-file-output=snyk.sarif
+                args: --file=dockerfile --sarif-file-output=snyk.sarif
                 sarif: true
             - run: ls -al
             - name: Upload result to GitHub Code Scanning
