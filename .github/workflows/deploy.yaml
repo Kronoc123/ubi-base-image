@@ -1,0 +1,29 @@
+on:
+    push:
+        branches: [main]
+
+name: "Docker build"
+permissions:
+    contents: read
+    pull-requests: write
+defaults:
+  run:
+    working-directory: './'
+jobs:
+    Build:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Clone Repo
+              uses: actions/checkout@v3
+            - name: Pull UBI 9 Image
+              run: docker pull ubi9/ubi:9.0.0
+            - name: Build UBI 9 Image
+              run: docker build -t ubi9/conor-ubi:9.0.0 .
+            - name: Push UBI 9 Image
+              run: docker tag ubi9/conor-ubi:9.0.0 ghcr.io/ubi/conor-ubi:9.0.0
+            - name: Push UBI 9 Image
+              if: github.actor == 'conor-ubi[bot]'
+              run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
+              run: docker push ghcr.io/conor/conor-ubi:9.0.0
+
+        
