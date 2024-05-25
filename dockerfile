@@ -3,4 +3,5 @@ RUN dnf install -y python3.12 python3.12-pip && dnf update -y glibc && dnf clean
 RUN adduser pythonuser
 USER pythonuser
 WORKDIR /home/pythonuser
+LABEL org.opencontainers.image.description "Conor UBI Base Image"
 CMD ["/bin/bash"]
