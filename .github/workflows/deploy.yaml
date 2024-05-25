@@ -68,7 +68,7 @@ jobs:
                 username: ${{ github.actor }}
                 password: ${{ secrets.GITHUB_TOKEN }}
             - name: Pull new base image
-              run: docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:conor-ubi-9
+              run: docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:main
             - name: Setup docker bench
               run: |
                 git clone https://github.com/docker/docker-bench-security.git
