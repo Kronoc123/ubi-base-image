@@ -14,23 +14,18 @@ defaults:
 env: 
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository  }}
-  IMAGE_NAME_LOWER: ""
 jobs:
-    Pre-reqs:
-        runs-on: ubuntu-latest
-        steps:
-          - name: Set Env vars
-            run: |
-              IMAGE_NAME_LOWER=$(echo -n ${{ env.IMAGE_NAME }} | tr '[:upper:]' '[:lower:]')
-              echo "IMAGE_NAME_LOWER=$IMAGE_NAME_LOWER" >> $GITHUB_ENV
     Build-Image:
         runs-on: ubuntu-latest
-        needs: Pre-reqs
+        env:
+          IMAGE_NAME_LOWER: ""
         steps:
             - name: Clone Repo
               uses: actions/checkout@v4
-            - name: Podman test
-              run: which podman
+            - name: Set Env vars
+              run: |
+                IMAGE_NAME_LOWER=$(echo -n ${{ env.IMAGE_NAME }} | tr '[:upper:]' '[:lower:]')
+                echo "IMAGE_NAME_LOWER=$IMAGE_NAME_LOWER" >> $GITHUB_ENV
             - name: Pull UBI 9 Image
               run: docker pull registry.access.redhat.com/ubi9/ubi@sha256:ed84f34cd929ea6b0c247b6daef54dd79602804a32480a052951021caf429494
             - name: Log in to the Container registry
@@ -70,6 +65,8 @@ jobs:
     CIS-Bench:
         runs-on: ubuntu-latest
         needs: Build-Image
+        env:
+          IMAGE_NAME_LOWER: ""
         steps:
             - name: Log in to the Container registry
               uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
@@ -77,6 +74,10 @@ jobs:
                 registry: ${{ env.REGISTRY }}
                 username: ${{ github.actor }}
                 password: ${{ secrets.GITHUB_TOKEN }}
+            - name: Set Env vars
+              run: |
+                IMAGE_NAME_LOWER=$(echo -n ${{ env.IMAGE_NAME }} | tr '[:upper:]' '[:lower:]')
+                echo "IMAGE_NAME_LOWER=$IMAGE_NAME_LOWER" >> $GITHUB_ENV
             - name: Pull new base image
               run: docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_LOWER }}:main
             - name: Setup docker bench
