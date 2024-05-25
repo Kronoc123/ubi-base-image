@@ -30,6 +30,7 @@ jobs:
                 docker push ghcr.io/conor/conor-ubi:9.0.0
     CISBench:
         runs-on: ubuntu-latest
+        needs: Build
         steps:
             - name: Push UBI 9 Image
               if: github.actor == 'conor-ubi[bot]'
@@ -53,5 +54,5 @@ jobs:
                   -v /var/lib:/var/lib:ro \
                   -v /var/run/docker.sock:/var/run/docker.sock:ro \
                   --label docker_bench_security \
-                  docker-bench-security
+                  docker-bench-security -i conor/conor-ubi:9.0.0
         
