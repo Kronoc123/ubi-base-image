@@ -23,7 +23,8 @@ jobs:
               run: docker tag ubi9/conor-ubi:9.0.0 ghcr.io/ubi/conor-ubi:9.0.0
             - name: Push UBI 9 Image
               if: github.actor == 'conor-ubi[bot]'
-              run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
-              run: docker push ghcr.io/conor/conor-ubi:9.0.0
+              run: |
+                echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
+                docker push ghcr.io/conor/conor-ubi:9.0.0
 
         
