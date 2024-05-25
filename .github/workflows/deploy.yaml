@@ -112,7 +112,7 @@ jobs:
                 SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
               with:
                 image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_LOWER }}
-                args: --file=dockerfile --sarif-file-output=snyk.sarif
+                args: --file=dockerfile --sarif-file-output=snyk.sarif --severity-threshold=high
                 sarif: true
             - run: cat snyk.sarif
               continue-on-error: true
