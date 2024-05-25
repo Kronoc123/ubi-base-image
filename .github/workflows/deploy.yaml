@@ -109,7 +109,7 @@ jobs:
                 SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
               with:
                 image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_LOWER }}
-                args: --severity-threshold=high
+                args: --severity-threshold=high --file=Dockerfile
             - name: Upload result to GitHub Code Scanning
               uses: github/codeql-action/upload-sarif@v2
               with:
