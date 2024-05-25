@@ -24,7 +24,7 @@ jobs:
             - name: Build and tag custom UBI 9 Image
               run: docker build -t ${{ env.DOCKER_IMAGE }} .
             - name: List Images
-              run: docker images ps
+              run: docker images --filter=reference="${{ env.DOCKER_IMAGE }}"
             - name: Push UBI 9 Image
               run: |
                 echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
