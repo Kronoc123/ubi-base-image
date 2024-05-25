@@ -103,10 +103,13 @@ jobs:
                   docker-bench-security -i ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_LOWER }}:conor-ubi-9 -c container_images
             - name: Snyk scan
               uses: snyk/actions/docker@master
+              continue-on-error: true
               env:
                 SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
               with:
                 image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_LOWER }}
                 args: --severity-threshold=high
-
-        
+            - name: Upload result to GitHub Code Scanning
+              uses: github/codeql-action/upload-sarif@v2
+              with:
+                sarif_file: snyk.sarif
