@@ -15,8 +15,10 @@ jobs:
         steps:
             - name: Clone Repo
               uses: actions/checkout@v3
+            - name: Podman test
+              run: which podman
             - name: Pull UBI 9 Image
-              run: docker pulll registry.access.redhat.com/ubi9/ubi@sha256:ed84f34cd929ea6b0c247b6daef54dd79602804a32480a052951021caf429494
+              run: docker pull registry.access.redhat.com/ubi9/ubi@sha256:ed84f34cd929ea6b0c247b6daef54dd79602804a32480a052951021caf429494
             - name: Build UBI 9 Image
               run: docker build -t ubi9/conor-ubi:9.0.0 .
             - name: Tag custom UBI 9 Image
