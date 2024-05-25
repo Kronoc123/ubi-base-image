@@ -90,7 +90,7 @@ jobs:
                 docker run -d --name conor-ubi-9 ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_LOWER }}:conor-ubi-9
             - name: Run docker bench
               run: |
-                docker containers ps --filter name=conor-ubi-9
+                docker containers ls --filter name=conor-ubi-9
                 docker run --rm --net host --pid host --userns host --cap-add audit_control \
                   -e DOCKER_CONTENT_TRUST=$DOCKER_CONTENT_TRUST \
                   -v /etc:/etc:ro \
