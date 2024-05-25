@@ -15,9 +15,12 @@ defaults:
 env: 
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository  }}
+  KANIKO_CACHE_ARGS: "--cache=true --cache-copy-layers=true --cache-ttl=24h"
 jobs:
     Build-Image:
         runs-on: self-hosted
+        container:
+          image: gcr.io/kaniko-project/executor:debug 
         env:
           IMAGE_NAME_LOWER: ""
         steps:
@@ -66,6 +69,8 @@ jobs:
               
     CIS-Bench:
         runs-on: self-hosted
+        container:
+          image: gcr.io/kaniko-project/executor:debug 
         needs: Build-Image
         env:
           IMAGE_NAME_LOWER: ""
