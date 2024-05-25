@@ -6,6 +6,7 @@ name: "Docker build"
 permissions:
     contents: read
     pull-requests: write
+    packages: write
 defaults:
   run:
     working-directory: './'
