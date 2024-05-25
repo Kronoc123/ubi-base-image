@@ -42,6 +42,9 @@ jobs:
                 git clone https://github.com/docker/docker-bench-security.git
                 cd docker-bench-security
                 docker build --no-cache -t docker-bench-security .
+            - name: Run Base images
+              run: |
+                docker run conor/conor-ubi:9.0.0 -d
             - name: Run docker bench
               run: |
                 docker run --rm --net host --pid host --userns host --cap-add audit_control \
