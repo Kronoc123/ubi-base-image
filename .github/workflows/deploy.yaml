@@ -16,19 +16,8 @@ env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository  }}
 jobs:
-    Clone-Repo:
-      runs-on: self-hosted
-      steps:
-          - name: Clone Repo
-            uses: actions/checkout@v4
-          - name: Upload dockerfile artifact
-            uses: actions/upload-artifact@v4
-            with:
-              name: dockerfile
-              path: ./dockerfile
     Build-Image:
         runs-on: self-hosted
-        needs: Clone-Repo
         container:
           image: gcr.io/kaniko-project/executor:v1.20.0-debug
         env:
