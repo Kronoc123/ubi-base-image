@@ -29,27 +29,14 @@ jobs:
                 echo "IMAGE_NAME_LOWER=$IMAGE_NAME_LOWER" >> $GITHUB_ENV
             - name: Build and Push Image to GHCR with Kaniko
               run: |
-                # Prepare auth config file
-                echo -n ${{ env.GIT_PASSWORD }} > credentials.json
-                cat <<EOF >> /kaniko/.docker/config.json
-                {
-                  "auths": {
-                    "ghcr.io": {
-                      "auth": "$(base64 credentials.json | tr -d '\n')"
-                    }
-                  }
-                }
-                EOF
-                # Clean temporary credentials file
-                rm credentials.json
-            
+                apk add --no-cache docker-credential-ghcr  # Install credential helper within Kaniko
+                echo ${{ secrets.GITHUB_TOKEN }} | docker-credential-ghcr add ghcr.io
                 /kaniko/executor --dockerfile="./app/Dockerfile" \
                   --context="${{ github.repositoryUrl }}#${{ github.ref }}#${{ github.sha }}" \
                   --destination=ghcr.io/${{ github.repository }}/${{ env.IMAGE_NAME_LOWER }}:latest \
-                  --config=/kaniko/.docker/config.json \
                   ${{ env.KANIKO_CACHE_ARGS }} \
-                      --push-retry 5
-              env:  
+                  --push-retry 5
+                env:  
                 GIT_USERNAME: ${{ github.actor }}
                 GIT_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
                 KANIKO_CACHE_ARGS: "--cache=true --cache-copy-layers=true --cache-ttl=24h"
