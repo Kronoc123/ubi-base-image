@@ -29,6 +29,7 @@ jobs:
               path: ./dockerfile
     Build-Image:
         runs-on: self-hosted
+        needs: Clone-Repo
         container:
           image: gcr.io/kaniko-project/executor:v1.20.0-debug
         env:
