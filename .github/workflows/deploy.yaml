@@ -17,6 +17,16 @@ env:
   IMAGE_NAME: ${{ github.repository  }}
   KANIKO_CACHE_ARGS: "--cache=true --cache-copy-layers=true --cache-ttl=24h"
 jobs:
+    Clone-Repo:
+      runs-on: self-hosted
+      steps:
+          - name: Clone Repo
+            uses: actions/checkout@v4
+          - name: Upload dockerfile artifact
+            uses: actions/upload-artifact@v4
+            with:
+              name: dockerfile
+              path: ./dockerfile
     Build-Image:
         runs-on: self-hosted
         container:
@@ -24,8 +34,11 @@ jobs:
         env:
           IMAGE_NAME_LOWER: ""
         steps:
-            - name: Clone Repo
-              uses: actions/checkout@v4
+            - name: Download dockerfile artifact
+              uses: actions/download-artifact@v4
+              with:
+                name: dockerfile
+                path: ./dockerfile
             - name: Set Env vars
               run: |
                 IMAGE_NAME_LOWER=$(echo -n ${{ env.IMAGE_NAME }} | tr '[:upper:]' '[:lower:]')
@@ -69,8 +82,6 @@ jobs:
               
     CIS-Bench:
         runs-on: self-hosted
-        container:
-          image: gcr.io/kaniko-project/executor:v1.20.0-debug
         needs: Build-Image
         env:
           IMAGE_NAME_LOWER: ""
