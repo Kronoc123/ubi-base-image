@@ -21,7 +21,7 @@ jobs:
       runs-on: self-hosted
       steps:
           - name: Clone Repo
-            uses: actions/checkout@v2
+            uses: actions/checkout@v4
           - name: Upload dockerfile artifact
             uses: actions/upload-artifact@v4
             with:
@@ -37,9 +37,6 @@ jobs:
         steps:
             - name: Download dockerfile artifact
               uses: actions/download-artifact@v2
-              with:
-                name: dockerfile
-                path: ./dockerfile
             - name: Set Env vars
               run: |
                 IMAGE_NAME_LOWER=$(echo -n ${{ env.IMAGE_NAME }} | tr '[:upper:]' '[:lower:]')
