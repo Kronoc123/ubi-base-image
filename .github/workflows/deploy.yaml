@@ -23,6 +23,7 @@ jobs:
       steps:
           - name: Clone Repo
             uses: actions/checkout@v4
+          - run: which podman
           - name: Set Env vars
             run: |
               IMAGE_NAME_LOWER=$(echo -n ${{ env.IMAGE_NAME }} | tr '[:upper:]' '[:lower:]')
