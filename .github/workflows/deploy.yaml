@@ -10,8 +10,8 @@ permissions:
   attestations: write
   security-events: write
 defaults:
-run:
-  working-directory: './'
+  run:
+    working-directory: './'
 env: 
 REGISTRY: ghcr.io
 IMAGE_NAME: ${{ github.repository  }}
