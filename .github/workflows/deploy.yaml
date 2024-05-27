@@ -13,8 +13,8 @@ defaults:
   run:
     working-directory: './'
 env: 
-REGISTRY: ghcr.io
-IMAGE_NAME: ${{ github.repository  }}
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository  }}
 jobs:
   Build-Image:
       runs-on: self-hosted
